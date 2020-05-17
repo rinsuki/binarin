@@ -53,6 +53,21 @@ export class SyncReader {
         return res
     }
 
+    u24(isLittleEndian = this.isLittleEndian) {
+        var bits = [this.u8(), this.u8(), this.u8()]
+        if (isLittleEndian) bits = bits.reverse()
+        const bit = bits.reduce((prev, current) => current | (prev << 8), 0)
+        return bit
+    }
+
+    i24(isLittleEndian = this.isLittleEndian) {
+        const u24 = this.u24(isLittleEndian)
+        if (u24 >> 23) {
+            return -(u24 ^ 0xffffff) - 1
+        }
+        return u24
+    }
+
     u32(isLittleEndian = this.isLittleEndian) {
         const res = this.dataView.getUint32(this.pointer, isLittleEndian)
         this.pointer += 4

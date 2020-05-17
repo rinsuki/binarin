@@ -55,6 +55,50 @@ describe("SyncReader", () => {
         })
     })
 
+    describe("u24", () => {
+        const arr = new Uint8Array(
+            [
+                [0x01, 0x00, 0x00],
+                [0x00, 0x00, 0x02],
+                [0xff, 0xff, 0xff],
+            ].flat(),
+        )
+        test("le", () => {
+            const reader = new SyncReader(new DataView(arr.buffer), 0, true)
+            expect(reader.u24()).toBe(1)
+            expect(reader.u24()).toBe(0x20000)
+            expect(reader.u24()).toBe(0xffffff)
+        })
+        test("be", () => {
+            const reader = new SyncReader(new DataView(arr.buffer), 0, false)
+            expect(reader.u24()).toBe(0x10000)
+            expect(reader.u24()).toBe(2)
+            expect(reader.u24()).toBe(0xffffff)
+        })
+    })
+
+    describe("i24", () => {
+        const arr = new Uint8Array(
+            [
+                [0x01, 0x00, 0x00],
+                [0x00, 0x00, 0x02],
+                [0xff, 0xff, 0xff],
+            ].flat(),
+        )
+        test("le", () => {
+            const reader = new SyncReader(new DataView(arr.buffer), 0, true)
+            expect(reader.i24()).toBe(1)
+            expect(reader.i24()).toBe(0x20000)
+            expect(reader.i24()).toBe(-1)
+        })
+        test("be", () => {
+            const reader = new SyncReader(new DataView(arr.buffer), 0, false)
+            expect(reader.i24()).toBe(0x10000)
+            expect(reader.i24()).toBe(2)
+            expect(reader.i24()).toBe(-1)
+        })
+    })
+
     describe("u32", () => {
         const arr = new Uint8Array(
             [
