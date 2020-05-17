@@ -12,7 +12,7 @@ Useful Binary Reader for TypeScript (both works Browser and Node.js).
 
 -   [x] Sync Reader
     -   both supporting little and big endian
-    -   read 8bit, 16bit, 32bit unsigned/signed int as number
+    -   read 8bit, 16bit, 24bit, 32bit unsigned/signed int as number
     -   read float/double (32bit/64bit) as number
     -   read 64bit unsigned/signed int as BigInt
     -   read Zero Terminated String/Bytes
