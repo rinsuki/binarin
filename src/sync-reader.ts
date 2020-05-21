@@ -14,6 +14,10 @@ export class SyncReader {
         this.pointer = Math.ceil(this.pointer / size) * size
     }
 
+    skip(n: number) {
+        this.pointer += n
+    }
+
     bytes(size: number) {
         return this.dataView.buffer.slice(this.pointer, (this.pointer += size))
     }
