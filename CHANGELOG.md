@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## UNRELEASED
+## 0.1.2
 
 -   Add `SyncReader#skip`
 -   Create CHANGELOG.md
