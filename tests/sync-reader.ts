@@ -217,4 +217,13 @@ describe("SyncReader", () => {
             expect(reader.pointer).toEqual(9)
         })
     })
+
+    test("skip", () => {
+        const arr = new Uint8Array([0x01, 0x02, 0xff])
+        const reader = new SyncReader(new DataView(arr.buffer))
+        expect(reader.u8()).toBe(1)
+        reader.skip(1)
+        expect(reader.u8()).toBe(255)
+        expect(reader.pointer).toBe(3)
+    })
 })
