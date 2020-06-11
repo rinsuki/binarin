@@ -1,14 +1,14 @@
 type ConstructorArgumentsOf<
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     TFunc extends new (...args: any[]) => unknown
-> = TFunc extends new (...args: infer TArgs) => unknown ? TArgs : never
+    > = TFunc extends new (...args: infer TArgs) => unknown ? TArgs : never
 
 export class SyncReader {
     constructor(
         public dataView: DataView,
         public pointer: number = 0,
         public isLittleEndian = false,
-    ) {}
+    ) { }
 
     align(size: number) {
         this.pointer = Math.ceil(this.pointer / size) * size
@@ -88,16 +88,16 @@ export class SyncReader {
         const left = BigInt(this.u32(isLittleEndian))
         const right = BigInt(this.u32(isLittleEndian))
         if (isLittleEndian) {
-            return (right << 32n) | left
+            return (right << BigInt(32)) | left
         } else {
-            return (left << 32n) | right
+            return (left << BigInt(32)) | right
         }
     }
 
     i64(isLittleEndian = this.isLittleEndian) {
         const u64 = this.u64(isLittleEndian)
-        if (u64 & 0x8000000000000000n) {
-            return -(u64 ^ 0xffffffffffffffffn) - 1n
+        if (u64 & BigInt("0x8000000000000000")) {
+            return -(u64 ^ BigInt("0xffffffffffffffff")) - BigInt(1)
         }
         return u64
     }
