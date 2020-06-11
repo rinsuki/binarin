@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.1.3
+
+- BigIntリテラルを使わないように
+    - BigIntが実装されていない環境(e.g. Safari)でも 64bit integer 以外の機能は使えるようになりました
+
 ## 0.1.2
 
 -   Add `SyncReader#skip`
