@@ -1,14 +1,14 @@
 type ConstructorArgumentsOf<
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     TFunc extends new (...args: any[]) => unknown
-    > = TFunc extends new (...args: infer TArgs) => unknown ? TArgs : never
+> = TFunc extends new (...args: infer TArgs) => unknown ? TArgs : never
 
 export class SyncReader {
     constructor(
         public dataView: DataView,
         public pointer: number = 0,
         public isLittleEndian = false,
-    ) { }
+    ) {}
 
     align(size: number) {
         this.pointer = Math.ceil(this.pointer / size) * size
