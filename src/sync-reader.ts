@@ -3,6 +3,20 @@ type ConstructorArgumentsOf<
     TFunc extends new (...args: any[]) => unknown
 > = TFunc extends new (...args: infer TArgs) => unknown ? TArgs : never
 
+let bigint32: bigint,
+    bigint0x8000000000000000: bigint,
+    bigint0xffffffffffffffff: bigint
+// もしBigIntに対応していない環境でも、BigInt以外の機能は使えるようにする
+// (BigIntリテラルを直接使うとBigIntに未対応な環境の場合SyntaxErrorで死んでしまう
+//  ここではそれを回避するためにstringからBigIntを作っている)
+try {
+    bigint32 = BigInt(32)
+    bigint0x8000000000000000 = BigInt("0x8000000000000000")
+    bigint0xffffffffffffffff = BigInt("0xffffffffffffffff")
+} catch {
+    // This environment doesn't support BigInt
+}
+
 export class SyncReader {
     constructor(
         public dataView: DataView,
@@ -88,16 +102,16 @@ export class SyncReader {
         const left = BigInt(this.u32(isLittleEndian))
         const right = BigInt(this.u32(isLittleEndian))
         if (isLittleEndian) {
-            return (right << BigInt(32)) | left
+            return (right << bigint32) | left
         } else {
-            return (left << BigInt(32)) | right
+            return (left << bigint32) | right
         }
     }
 
     i64(isLittleEndian = this.isLittleEndian) {
         const u64 = this.u64(isLittleEndian)
-        if (u64 & BigInt("0x8000000000000000")) {
-            return -(u64 ^ BigInt("0xffffffffffffffff")) - BigInt(1)
+        if (u64 & bigint0x8000000000000000) {
+            return -(u64 ^ bigint0xffffffffffffffff) - BigInt(1)
         }
         return u64
     }
