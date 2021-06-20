@@ -7,7 +7,7 @@
         "extends": "@rinsuki"
     },
     "scripts": {
-        "build": "rm -r dist && tsc",
+        "build": "touch dist && rm -r dist && tsc",
         "test": "jest",
         "lint": "eslint src --ext .js,.ts,.tsx"
     },
