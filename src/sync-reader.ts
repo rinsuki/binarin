@@ -1,3 +1,5 @@
+import { typedArrayToDataView } from "./typedarray-to-dataview"
+
 type ConstructorArgumentsOf<
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     TFunc extends new (...args: any[]) => unknown
@@ -18,11 +20,24 @@ try {
 }
 
 export class SyncReader {
+    dataView: DataView
     constructor(
-        public dataView: DataView,
+        source: DataView | Uint8Array | ArrayBuffer,
         public pointer: number = 0,
         public isLittleEndian = false,
-    ) {}
+    ) {
+        if (source instanceof DataView) {
+            this.dataView = source
+        } else if (source instanceof ArrayBuffer) {
+            this.dataView = new DataView(source)
+        } else if (source instanceof Uint8Array) {
+            this.dataView = typedArrayToDataView(source)
+        } else {
+            throw new Error(
+                "source should be DataView or ArrayBuffer or Uint8Array",
+            )
+        }
+    }
 
     align(size: number) {
         this.pointer = Math.ceil(this.pointer / size) * size
