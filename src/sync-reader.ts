@@ -117,9 +117,12 @@ export class SyncReader {
     }
 
     u24(isLittleEndian = this.isLittleEndian) {
-        var bits = [this.u8(), this.u8(), this.u8()]
-        if (isLittleEndian) bits = bits.reverse()
-        const bit = bits.reduce((prev, current) => current | (prev << 8), 0)
+        const bit0 = this.u8()
+        const bit1 = this.u8()
+        const bit2 = this.u8()
+        const bit = isLittleEndian
+            ? bit0 | (bit1 << 8) | (bit2 << 16)
+            : bit2 | (bit1 << 8) | (bit0 << 16)
         return bit
     }
 
