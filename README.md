@@ -4,9 +4,7 @@ Useful Binary Reader for TypeScript.
 
 ## Required
 
--   JavaScript Runtime with BigInt support
-    -   https://caniuse.com/#feat=bigint
-    -   Note: currently (2020/05), Safari (WebKit) not supported BigInt
+-   JavaScript Runtime with BigInt support (Safari >= 14)
 
 ## Features (including WIP)
 
