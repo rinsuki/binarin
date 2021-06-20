@@ -1,4 +1,5 @@
 import { SyncReader } from "../src/sync-reader"
+import { typedArrayToDataView } from "../src/typedarray-to-dataview"
 
 describe("SyncReader", () => {
     test("u8", () => {
@@ -201,6 +202,21 @@ describe("SyncReader", () => {
                 new DataView(reader.zeroTerminatedBytes()),
             )
             expect(bytes.dataView.buffer.byteLength).toEqual(3)
+            expect(bytes.u8()).toEqual(0x61)
+            expect(bytes.u8()).toEqual(0x62)
+            expect(bytes.u8()).toEqual(0x63)
+            // ---
+            expect(reader.zeroTerminatedBytes().byteLength).toEqual(0)
+            expect(reader.zeroTerminatedBytes().byteLength).toEqual(3)
+            expect(reader.pointer).toEqual(9)
+        })
+        test("bytes (no copy)", () => {
+            const reader = new SyncReader(new DataView(arr.buffer))
+            const bytes = new SyncReader(
+                typedArrayToDataView(reader.zeroTerminatedBytesNoCopy()),
+            )
+            expect(bytes.dataView.buffer.byteLength).toEqual(9)
+            expect(bytes.dataView.byteLength).toEqual(3)
             expect(bytes.u8()).toEqual(0x61)
             expect(bytes.u8()).toEqual(0x62)
             expect(bytes.u8()).toEqual(0x63)

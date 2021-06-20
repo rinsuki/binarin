@@ -36,12 +36,42 @@ export class SyncReader {
         return this.dataView.buffer.slice(this.pointer, (this.pointer += size))
     }
 
+    /**
+     * return bytes as Uint8Array with byteOffset (zero copy).
+     */
+    bytesNoCopy(size: number): Uint8Array {
+        const arr = new Uint8Array(
+            this.dataView.buffer,
+            this.dataView.byteOffset + this.pointer,
+            size,
+        )
+        this.pointer += size
+        return arr
+    }
+
     zeroTerminatedBytes() {
         const start = this.pointer
         while (this.dataView.getUint8(this.pointer)) {
             this.pointer++
         }
         return this.dataView.buffer.slice(start, this.pointer++)
+    }
+
+    /**
+     * zeroTerminatedBytes as Uint8Array with byteOffset (zero copy).
+     */
+    zeroTerminatedBytesNoCopy() {
+        const start = this.pointer
+        while (this.dataView.getUint8(this.pointer)) {
+            this.pointer++
+        }
+        const len = this.pointer - start
+        this.pointer++
+        return new Uint8Array(
+            this.dataView.buffer,
+            this.dataView.byteOffset + start,
+            len,
+        )
     }
 
     zeroTerminatedString(
