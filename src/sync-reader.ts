@@ -93,7 +93,7 @@ export class SyncReader {
         ...params: ConstructorArgumentsOf<typeof TextDecoder>
     ) {
         const decoder = new TextDecoder(...params)
-        return decoder.decode(this.zeroTerminatedBytes())
+        return decoder.decode(this.zeroTerminatedBytesNoCopy())
     }
 
     u8() {
