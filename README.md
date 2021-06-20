@@ -20,19 +20,6 @@ Useful Binary Reader for TypeScript.
 
 ## Example
 
-### Deno
-
-```typescript
-// Note: you need to replace x.y.z with the version you want to use (see github releases for version list)
-import { SyncReader } from "https://cdn.jsdelivr.net/gh/rinsuki/binarin@x.y.z/src/sync-reader.ts"
-
-const reader = new SyncReader(new DataView(arrayBuffer))
-reader.u8() // returns number 0..<256
-reader.i8() // returns number -128..<127
-reader.float() // returns number
-reader.zeroTerminatedString("utf-8") // return string (decoded by TextDecoder)
-```
-
 ### Node.js / webpack (and other node-backend bundlers)
 
 ```typescript
