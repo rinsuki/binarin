@@ -7,7 +7,7 @@
         "extends": "@rinsuki"
     },
     "scripts": {
-        "build": "tsc",
+        "build": "rm -r dist && tsc",
         "test": "jest",
         "lint": "eslint src --ext .js,.ts,.tsx"
     },
@@ -21,5 +21,11 @@
         "prettier": "^2.0.5",
         "ts-jest": "^25.4.0",
         "typescript": "^3.8.3"
-    }
+    },
+    "files": [
+        "*.md",
+        "dist/**/*.js",
+        "dist/**/*.d.ts",
+        "*.json"
+    ]
 }
