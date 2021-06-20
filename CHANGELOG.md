@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 0.2.1
+
+- `SyncReader#u24` の実装を高級な物から素朴な物に
+- `SyncReader#zeroTerminatedString` で内部的に `SyncReader#zeroTerminatedBytesNoCopy()` を使うように
+    - 読んだ `Uint8Array` は `TextDecoder#decode` にしか渡らないはずなので謎の polyfill とかが入っていない限りメリットしかないはず
+
 ## 0.2.0
 
 - no copy 系メソッドを実装
