@@ -2,12 +2,10 @@ import { typedArrayToDataView } from "./typedarray-to-dataview"
 
 type ConstructorArgumentsOf<
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    TFunc extends new (...args: any[]) => unknown
+    TFunc extends new (...args: any[]) => unknown,
 > = TFunc extends new (...args: infer TArgs) => unknown ? TArgs : never
 
-let bigint32: bigint,
-    bigint0x8000000000000000: bigint,
-    bigint0xffffffffffffffff: bigint
+let bigint32: bigint, bigint0x8000000000000000: bigint, bigint0xffffffffffffffff: bigint
 // もしBigIntに対応していない環境でも、BigInt以外の機能は使えるようにする
 // (BigIntリテラルを直接使うとBigIntに未対応な環境の場合SyntaxErrorで死んでしまう
 //  ここではそれを回避するためにstringからBigIntを作っている)
@@ -33,9 +31,7 @@ export class SyncReader {
         } else if (source instanceof Uint8Array) {
             this.dataView = typedArrayToDataView(source)
         } else {
-            throw new Error(
-                "source should be DataView or ArrayBuffer or Uint8Array",
-            )
+            throw new Error("source should be DataView or ArrayBuffer or Uint8Array")
         }
     }
 
@@ -82,16 +78,10 @@ export class SyncReader {
         }
         const len = this.pointer - start
         this.pointer++
-        return new Uint8Array(
-            this.dataView.buffer,
-            this.dataView.byteOffset + start,
-            len,
-        )
+        return new Uint8Array(this.dataView.buffer, this.dataView.byteOffset + start, len)
     }
 
-    zeroTerminatedString(
-        ...params: ConstructorArgumentsOf<typeof TextDecoder>
-    ) {
+    zeroTerminatedString(...params: ConstructorArgumentsOf<typeof TextDecoder>) {
         const decoder = new TextDecoder(...params)
         return decoder.decode(this.zeroTerminatedBytesNoCopy())
     }
